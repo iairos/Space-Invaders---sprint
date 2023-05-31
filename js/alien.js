@@ -11,7 +11,10 @@ var gIsAlienFreeze = true
 function createAliens(board) {
   for (let i = 0; i < board.length; i++) {
     for (let j = 0; j < board[i].length; j++) {
-      if (i > 1 && i < 5 && j > 2 && j < 11) board[i][j] = createCell(ALIEN)
+      if (i > 1 && i < 5 && j > 2 && j < 11) {
+        board[i][j] = createCell(ALIEN)
+        gGame.aliensCount++
+      }
     }
   }
 }

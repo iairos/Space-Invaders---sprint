@@ -10,11 +10,18 @@
   <body onload="init()" onkeydown="onKeyDown(event)">
     <header>
       <h1>בס"ד</h1>
+      <div class="score-board-container">
+        <h2>Score: <span>0</span></h2>
+      </div>
     </header>
     <main>
       <table>
         <tbody class="board"></tbody>
       </table>
+      <div class="modal">
+        <h3 class="msg"></h3>
+        <button class="restart-btn" onclick="init()">Play Again</button>
+      </div>
     </main>
     <footer></footer>
     <script src="js/utils.js"></script>

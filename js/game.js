@@ -10,18 +10,25 @@ const EARTH = '.'
 
 // Matrix of cell objects. e.g.: {type: SKY, gameObject: ALIEN}
 var gBoard
-var gGame
+var gGame = {
+  isOn: false,
+  aliensCount: 0,
+  isVictory: null,
+}
 // Called when game loads
 function init() {
-  gGame = {
-    isOn: false,
-    aliensCount: 0,
-  }
+  closeModal()
+
+  gGame.isOn = true
+  gHero.score = 0
   gBoard = createBoard()
   console.log(gBoard)
   createHero(gBoard)
   createAliens(gBoard)
   renderBoard(gBoard)
+
+  updateHeroScore(0)
+  console.log(gGame.aliensCount)
 }
 // Create and returns the board with aliens on top, ground at bottom
 // use the functions: createCell, createHero, createAliens
@@ -55,4 +62,27 @@ function renderBoard(board) {
   }
   const elContainer = document.querySelector('.board')
   elContainer.innerHTML = strHTML
+}
+function checkVictory() {
+  if (gGame.aliensCount === 0) {
+    console.log('victory')
+    gGame.isVictory = true
+    gameOver()
+    return
+  }
+}
+function gameOver() {
+  gGame.isOn = !gGame.isOn
+  var msg = gGame.isVictory ? 'You Won!!!' : 'Game Over'
+  openModal(msg)
+}
+function openModal(msg) {
+  const elModal = document.querySelector('.modal')
+  const elMsg = elModal.querySelector('.msg')
+  elMsg.innerText = msg
+  elModal.style.display = 'block'
+}
+function closeModal() {
+  const elModal = document.querySelector('.modal')
+  elModal.style.display = 'none'
 }
