@@ -1,5 +1,6 @@
 'use strict'
 const LASER_SPEED = 80
+let gLaserIntervalId = null
 var gHero = { pos: { i: 12, j: 5 }, isShoot: false }
 // creates the hero and place it on board
 function createHero(board) {
@@ -16,6 +17,7 @@ function onKeyDown(ev) {
       moveHero(1)
       break
     case 'Space':
+      if (gHero.isShoot) return
       shoot()
       break
   }
@@ -35,16 +37,30 @@ function moveHero(dir) {
 }
 // Sets an interval for shutting (blinking) the laser up towards aliens
 function shoot() {
-  setInterval(() => {
-    blinkLaser(gHero.pos)
-  }, 1000)
+  gHero.isShoot = true
+  const laserPos = {
+    i: gHero.pos.i - 1,
+    j: gHero.pos.j,
+  }
+  gLaserIntervalId = setInterval(() => {
+    blinkLaser(laserPos)
+  }, 100)
 }
 // renders a LASER at specific cell for short time and removes it
 function blinkLaser(pos) {
-  if (pos.i < 0) return
+  if (gBoard[pos.i + 1][pos.j].gameObject === LASER) {
+    updateCell({ i: pos.i + 1, j: pos.j })
+  }
+  if (gBoard[pos.i][pos.j].gameObject === ALIEN || pos.i === 0) {
+    clearInterval(gLaserIntervalId)
+    updateCell(pos)
+    gHero.isShoot = !gHero.isShoot
+    return
+  }
+  updateCell(pos, LASER)
+
   console.log(pos.i--)
 }
-
 // position such as: {i: 2, j: 7}
 // function updateCell(pos, gameObject = null) {
 //   gBoard[pos.i][pos.j].gameObject = gameObject

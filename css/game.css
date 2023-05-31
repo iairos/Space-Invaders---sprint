@@ -9,13 +9,15 @@ body {
 
 table {
   margin: auto;
-  border: 1px solid white;
+  /* border: 1px solid white; */
+  border-collapse: collapse;
 }
 
 .cell {
   width: 40px;
   height: 40px;
   font-size: 24px;
+  border: 1px solid white;
 }
 .earth {
   background-color: rgb(171, 49, 49);
