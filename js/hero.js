@@ -56,12 +56,15 @@ function blinkLaser(pos) {
   }
   if (gBoard[pos.i][pos.j].gameObject === ALIEN) {
     clearInterval(gLaserIntervalId)
+    // console.log('from hero', gBoard[5][5])
+
+    console.log(gBoard[pos.i][pos.j].gameObject)
     updateCell(pos)
     gGame.aliensCount--
     updateHeroScore(10)
     checkVictory()
-    console.log(gGame.aliensCount)
     gHero.isShoot = !gHero.isShoot
+    // console.log('from hero', gBoard[5][5])
     return
   }
   if (pos.i === 0) {
@@ -70,15 +73,19 @@ function blinkLaser(pos) {
     gHero.isShoot = !gHero.isShoot
     return
   }
+  console.log(gBoard[pos.i][pos.j])
   updateCell(pos, LASER)
+  console.log(gBoard[pos.i][pos.j])
+  pos.i--
 
-  console.log(pos.i--)
+  console.log(gBoard[pos.i][pos.j], pos)
 }
 function updateHeroScore(diff) {
   gHero.score += diff
   const elScoreBoard = document.querySelector('h2 span')
   elScoreBoard.innerText = gHero.score
 }
+
 // position such as: {i: 2, j: 7}
 // function updateCell(pos, gameObject = null) {
 //   gBoard[pos.i][pos.j].gameObject = gameObject

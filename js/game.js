@@ -1,4 +1,12 @@
 'use strict'
+/**
+ * created by iair schorr,
+ *- proj is stil not finishd,
+ *-- it took me some time to work about the aliens shifting.
+ *--- will continue working at weekend!
+
+ */
+
 const BOARD_SIZE = 14
 const ALIENS_ROW_LENGTH = 8
 const ALIENS_ROW_COUNT = 3
@@ -18,7 +26,10 @@ var gGame = {
 // Called when game loads
 function init() {
   closeModal()
-
+  gGame.isVictory = false
+  gIsAlienFreeze = null
+  gAliensTopRowIdx = 2
+  gAliensBottomRowIdx = 4
   gGame.isOn = true
   gHero.score = 0
   gBoard = createBoard()
@@ -26,6 +37,9 @@ function init() {
   createHero(gBoard)
   createAliens(gBoard)
   renderBoard(gBoard)
+  gIntervalAliens = setInterval(() => {
+    shiftAliensDown(gBoard)
+  }, 3000)
 
   updateHeroScore(0)
   console.log(gGame.aliensCount)
@@ -75,6 +89,7 @@ function gameOver() {
   gGame.isOn = !gGame.isOn
   var msg = gGame.isVictory ? 'You Won!!!' : 'Game Over'
   openModal(msg)
+  clearInterval(gIntervalAliens)
 }
 function openModal(msg) {
   const elModal = document.querySelector('.modal')
