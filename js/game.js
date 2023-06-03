@@ -31,7 +31,6 @@ var gGame = {
 function init() {
   closeModal()
   resetValues()
-  updateScoreBoard(0)
 }
 // Create and returns the board with aliens on top, ground at bottom
 // use the functions: createCell, createHero, createAliens
@@ -118,10 +117,14 @@ function playGameOverSound() {
 }
 function onStart(elBtn) {
   elBtn.innerText = 'Restart'
+  play()
+}
+function play() {
   init()
   gBoard = createBoard()
   createHero(gBoard)
   createAliens(gBoard)
   renderBoard(gBoard)
   moveAliens()
+  updateScoreBoard(0)
 }
