@@ -12,6 +12,7 @@ function getElCell(pos) {
 // position such as: {i: 2, j: 7}
 function updateCell(pos, gameObject = null) {
   gBoard[pos.i][pos.j].gameObject = gameObject
+  if (gameObject === '🚀') gameObject = HERO_IMG
   var elCell = getElCell(pos)
   elCell.innerHTML = gameObject || ''
 }

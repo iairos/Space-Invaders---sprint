@@ -1,29 +1,30 @@
 'use strict'
 const LASER_SPEED = 80
 let gLaserIntervalId = null
+
 var gHero = { pos: { i: 12, j: 5 }, isShoot: false, score: 0 }
 // creates the hero and place it on board
 function createHero(board) {
   const { pos } = gHero
   board[pos.i][pos.j] = createCell(HERO)
 }
-// Handle game keys
+
 function onKeyDown(ev) {
   if (!gGame.isOn) return
   switch (ev.code) {
+    case 'Space':
+      if (gHero.isShoot) return
+      playLaserSound()
+      shoot()
+      break
     case 'ArrowLeft':
       moveHero(-1)
       break
     case 'ArrowRight':
       moveHero(1)
       break
-    case 'Space':
-      if (gHero.isShoot) return
-      shoot()
-      break
   }
 }
-// Move the hero right (1) or left (-1)
 
 function moveHero(dir) {
   const i = gHero.pos.i
@@ -55,16 +56,19 @@ function blinkLaser(pos) {
     updateCell({ i: pos.i + 1, j: pos.j })
   }
   if (gBoard[pos.i][pos.j].gameObject === ALIEN) {
+    playAlienBlastSound()
     clearInterval(gLaserIntervalId)
-    // console.log('from hero', gBoard[5][5])
-
-    console.log(gBoard[pos.i][pos.j].gameObject)
     updateCell(pos)
     gGame.aliensCount--
-    updateHeroScore(10)
+    updateScoreBoard(10)
     checkVictory()
     gHero.isShoot = !gHero.isShoot
-    // console.log('from hero', gBoard[5][5])
+    if (
+      gBoard[pos.i - 1][pos.j] == ALIEN ||
+      getElCell({ i: pos.i - 1, j: pos.j }).innerHTML == ALIEN
+    ) {
+      console.log('BUGGGGG')
+    }
     return
   }
   if (pos.i === 0) {
@@ -73,22 +77,19 @@ function blinkLaser(pos) {
     gHero.isShoot = !gHero.isShoot
     return
   }
-  console.log(gBoard[pos.i][pos.j])
   updateCell(pos, LASER)
-  console.log(gBoard[pos.i][pos.j])
   pos.i--
-
-  console.log(gBoard[pos.i][pos.j], pos)
 }
-function updateHeroScore(diff) {
+function updateScoreBoard(diff) {
   gHero.score += diff
   const elScoreBoard = document.querySelector('h2 span')
   elScoreBoard.innerText = gHero.score
 }
-
-// position such as: {i: 2, j: 7}
-// function updateCell(pos, gameObject = null) {
-//   gBoard[pos.i][pos.j].gameObject = gameObject
-//   var elCell = getElCell(pos)
-//   elCell.innerHTML = gameObject || ''
-// }
+function playLaserSound() {
+  const audio = new Audio('sounds/laser-gun.mp3')
+  audio.play()
+}
+function playAlienBlastSound() {
+  const audio = new Audio('sounds/blast1.mp3')
+  audio.play()
+}

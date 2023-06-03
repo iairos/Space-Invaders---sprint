@@ -4,7 +4,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chokokutai&family=Raleway:wght@100&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/game.css" />
+    <link rel="shortcut icon" href="#" />
+
     <title>sprint</title>
   </head>
   <body onload="init()" onkeydown="onKeyDown(event)">
@@ -12,7 +20,8 @@
       <h1>Space invaders</h1>
       <div class="score-board-container">
         <h2>Score: <span>0</span></h2>
-        <button onclick="frizeAliens(this)">freeze</button>
+        <button class="freeze-btn" onclick="freezeAliens(this)">freeze</button>
+        <button class="start-btn" onclick="onStart(this)">Start</button>
       </div>
     </header>
     <main>
@@ -23,7 +32,21 @@
         <h3 class="msg"></h3>
         <button class="restart-btn" onclick="init()">Play Again</button>
       </div>
+      <div class="menu-container">
+        <h3>controllers:</h3>
+        <h4>for move right: <span>▶</span></h4>
+        <h4>for move left: <span>◀</span></h4>
+        <h4>for fire: <span>SPACE</span></h4>
+      </div>
     </main>
+    <footer>
+      <div class="menu-container-phone">
+        <h3>controllers:</h3>
+        <h4>for move right: <span>▶</span></h4>
+        <h4>for move left: <span>◀</span></h4>
+        <h4>for fire: <span>SPACE</span></h4>
+      </div>
+    </footer>
     <footer></footer>
     <script src="js/utils.js"></script>
     <script src="js/game.js"></script>

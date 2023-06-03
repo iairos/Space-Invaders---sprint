@@ -1,16 +1,31 @@
 * {
   box-sizing: border-box;
+  margin: 0;
 }
 body {
   background-color: black;
   color: white;
   text-align: center;
+  font-family: "Chokokutai", cursive;
+  height: 100vh;
+  overflow: hidden;
+}
+h1 {
+  text-shadow: 5px 5px 1px green;
+}
+header {
+  background-color: purple;
+  width: 560px;
+  padding: 10px;
+  margin: auto;
+  box-shadow: 1px 1px 5px 5px white;
 }
 
 table {
   margin: auto;
-  border: 1px solid white;
+  /* border: 1px solid white; */
   border-collapse: collapse;
+  box-shadow: 1px 1px 5px 3px white;
 }
 
 .cell {
@@ -23,25 +38,118 @@ table {
   background-color: rgb(171, 49, 49);
   color: transparent;
   margin: 0;
+  border-top: 3px solid white;
 }
+.menu-container {
+  position: fixed;
+  left: 10%;
+  text-align: start;
+  top: 40%;
+  border: 2px solid white;
+  padding: 20px;
+  color: green;
+}
+.menu-container > * {
+  margin-bottom: 20px;
+}
+.menu-container span {
+  color: white;
+}
+
 .modal {
   display: none;
-  border: solid 3px grey;
   width: 300px;
   height: 200px;
-  background-color: rgb(222, 226, 228);
+  background-color: rgb(101, 238, 124);
   color: black;
   font-size: 32px;
-
+  padding: 10px;
   position: absolute;
   top: 200px;
   left: calc(50% - 150px);
+  box-shadow: 10px 5px 5px 1px rgb(65, 199, 87);
+  text-shadow: 5px 5px 1px white;
 }
 
 .restart-btn {
-  margin-top: 20px;
+  margin-top: 80px;
   background-color: black;
   color: rgb(230, 221, 221);
-  padding: 10px;
+  width: 100%;
   cursor: pointer;
+
+  padding: 10px;
+}
+.freeze-btn {
+  width: 30%;
+  padding: 5px;
+  background-color: white;
+}
+.start-btn {
+  width: 30%;
+  padding: 5px;
+  background-color: white;
+}
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.menu-container-phone {
+  display: none;
+}
+@media screen and (max-width: 450px) {
+  body {
+    min-height: 100vh;
+    overflow: visible;
+  }
+  header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: purple;
+    width: 392px;
+    height: 100px;
+    padding: 10px;
+    margin: auto;
+    box-shadow: 1px 1px 5px 5px white;
+  }
+  table {
+    margin: auto;
+    border-collapse: collapse;
+    box-shadow: 1px 1px 5px 3px white;
+  }
+
+  .cell {
+    width: 28px;
+    height: 30px;
+    font-size: 20px;
+    /* border: 1px solid white; */
+  }
+  .menu-container {
+    display: none;
+  }
+  footer {
+    margin-top: 20px;
+  }
+  .menu-container-phone {
+    width: 392px;
+
+    margin: auto;
+
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    padding: 8px;
+    gap: 10px;
+    color: green;
+  }
+
+  .menu-container-phone span {
+    color: white;
+  }
 }

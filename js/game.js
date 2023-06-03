@@ -10,39 +10,28 @@
 const BOARD_SIZE = 14
 const ALIENS_ROW_LENGTH = 8
 const ALIENS_ROW_COUNT = 3
-const HERO = '♆'
+const HERO = '🚀'
+const HERO_IMG = `<img src="img/rocket.png" />`
 const ALIEN = '👽'
 const LASER = '⤊'
-const SKY = ''
+const SKY = ' '
 const EARTH = '.'
 
 // Matrix of cell objects. e.g.: {type: SKY, gameObject: ALIEN}
 var gBoard
 var gGame = {
-  isOn: false,
+  isOn: null,
   aliensCount: 0,
   isVictory: null,
+  isMoveRight: null,
+  isMoveDown: null,
+  isMoveLeft: null,
 }
 // Called when game loads
 function init() {
   closeModal()
-  gGame.isVictory = false
-  gIsAlienFreeze = null
-  gAliensTopRowIdx = 2
-  gAliensBottomRowIdx = 4
-  gGame.isOn = true
-  gHero.score = 0
-  gBoard = createBoard()
-  console.log(gBoard)
-  createHero(gBoard)
-  createAliens(gBoard)
-  renderBoard(gBoard)
-  gIntervalAliens = setInterval(() => {
-    shiftAliensDown(gBoard)
-  }, 3000)
-
-  updateHeroScore(0)
-  console.log(gGame.aliensCount)
+  resetValues()
+  updateScoreBoard(0)
 }
 // Create and returns the board with aliens on top, ground at bottom
 // use the functions: createCell, createHero, createAliens
@@ -53,7 +42,7 @@ function createBoard() {
     for (let j = 0; j < BOARD_SIZE; j++) {
       board[i][j] = createCell()
 
-      if (i === 13) board[i][j] = createCell(null, EARTH)
+      if (i === BOARD_SIZE - 1) board[i][j] = createCell(null, EARTH)
     }
   }
 
@@ -66,7 +55,9 @@ function renderBoard(board) {
     strHTML += '<tr>'
     for (var j = 0; j < board[0].length; j++) {
       const cell = board[i][j]
-      const inCell = cell.gameObject ? cell.gameObject : cell.type
+
+      let inCell = cell.gameObject ? cell.gameObject : cell.type
+      if (inCell === '🚀') inCell = HERO_IMG
 
       const className = cell.type === SKY ? 'cell' : 'cell earth'
 
@@ -88,6 +79,9 @@ function checkVictory() {
 function gameOver() {
   gGame.isOn = !gGame.isOn
   var msg = gGame.isVictory ? 'You Won!!!' : 'Game Over'
+  if (gGame.isVictory) {
+    playVictorySound()
+  } else playGameOverSound()
   openModal(msg)
   clearInterval(gIntervalAliens)
 }
@@ -100,4 +94,34 @@ function openModal(msg) {
 function closeModal() {
   const elModal = document.querySelector('.modal')
   elModal.style.display = 'none'
+}
+function resetValues() {
+  gAliensTopRowIdx = 1
+  gAliensBottomRowIdx = gAliensTopRowIdx + 2
+  gAliensRightCollIdx = 10
+  gAliensLeftCollIdx = 3
+  gHero.score = 0
+  gGame.isVictory = false
+  gIsAlienFreeze = null
+  gGame.isOn = true
+  gGame.isMoveRight = true
+  gGame.isMoveDown = false
+  gGame.isMoveLeft = false
+}
+function playVictorySound() {
+  const audio = new Audio('sounds/victory.mp3')
+  audio.play()
+}
+function playGameOverSound() {
+  const audio = new Audio('sounds/game-over.mp3')
+  audio.play()
+}
+function onStart(elBtn) {
+  elBtn.innerText = 'Restart'
+  init()
+  gBoard = createBoard()
+  createHero(gBoard)
+  createAliens(gBoard)
+  renderBoard(gBoard)
+  moveAliens()
 }
